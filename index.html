@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+		/>
+		<link rel="stylesheet" href="styles/styles.css" />
+		<title>My Notepad</title>
+	</head>
+	<body>
+		<div class="overlay hidden"></div>
+		<div class="overlay-explode hidden"></div>
+		<div class="wrap-box">
+			<header>
+				<div class="main-header">
+					<p class="logo">N</p>
+					<div class="buttons">
+						<div class="toggle-buttons">
+							<div class="toggle-day">
+								<span class="material-symbols-rounded md-18"> toggle_on </span>
+								<span class="background-day"></span>
+							</div>
+							<div class="toggle-night hidden">
+								<span class="material-symbols-rounded md-18"> toggle_off </span>
+								<span class="background-night"></span>
+							</div>
+						</div>
+						<span class="material-symbols-rounded settings md-18">
+							settings
+						</span>
+						<div class="settings-page wrap-box hidden">
+							<div class="settings-container">
+								<div class="settings-header">
+									<h2>SETTINGS</h2>
+									<span
+										class="material-symbols-rounded md-18 settings-close close"
+									>
+										close
+									</span>
+								</div>
+								<div class="settings-tab">
+									<div class="font settings-flex">
+										<p class="font-size">Font Size</p>
+										<div class="font-selection">
+											<div class="selectors">
+												<div class="selector"></div>
+												<div class="dash"></div>
+												<div class="selector"></div>
+												<div class="dash"></div>
+												<div class="selector"></div>
+											</div>
+											<div class="selector-tags"></div>
+										</div>
+									</div>
+									<div class="theme-setting settings-flex">
+										<p class="theme">Theme</p>
+										<p class="theme-value"></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="menu">
+					<ul class="menu-list grid grid-4-cols">
+						<li class="menu-list-item flex flex-gap-sm main-tab active">
+							<p class="menu-list-link" id="file">Files</p>
+							<span class="material-symbols-rounded md-18 add-file"> add </span>
+						</li>
+
+						<li class="menu-list-item">
+							<p class="menu-list-link" id="bookmark">Bookmarks</p>
+						</li>
+
+						<li class="menu-list-item">
+							<p class="menu-list-link" id="todo">To-do List</p>
+						</li>
+
+						<li class="menu-list-item">
+							<p class="menu-list-link" id="diary">Diary</p>
+						</li>
+					</ul>
+				</div>
+			</header>
+
+			<main>
+				<div class="files">
+					<!-- NOTES SECTION -->
+					<div class="file-wrap main" id="file">
+						<div class="container container-grid">
+							<div
+								class="summary"
+								contenteditable="false"
+								data-placeholder="File is empty"
+							>
+								<ul class="summary-list"></ul>
+							</div>
+							<div class="text-field">
+								<div class="text-field-header flex flex-gap-md">
+									<input
+										name="text-field-title"
+										class="text-field-title"
+										type="text"
+										autocomplete="off"
+										placeholder="Title..."
+										maxlength="50"
+									/>
+									<div class="save-bookmark flex flex-gap-md">
+										<span class="material-symbols-rounded md-18 bookmark">
+											bookmark_add
+										</span>
+										<span class="material-symbols-rounded md-18 save">
+											save
+										</span>
+									</div>
+								</div>
+								<textarea
+									name="text-area"
+									class="text-area"
+									placeholder="Write Note Here...."
+								></textarea>
+							</div>
+						</div>
+					</div>
+
+					<!-- BOOKMARK SECTION -->
+					<div class="file-wrap bookmark hidden" id="bookmark">
+						<div class="container container-grid">
+							<div class="summary">
+								<ul class="bookmark-list"></ul>
+							</div>
+							<div class="text-field" id="field-bookmark">
+								<div class="text-field-header flex flex-gap-md">
+									<input
+										name="text-field-title"
+										class="text-field-title"
+										id="text-title-bookmark"
+										type="text"
+										autocomplete="off"
+										maxlength="50"
+									/>
+								</div>
+								<textarea
+									name="text-area"
+									class="text-area"
+									id="text-area-bookmark"
+								></textarea>
+							</div>
+						</div>
+						<div class="container bookmark">
+							<div class="img-box">
+								<img class="bookmark-logo" src="img/bookmark logo.jfif" />
+							</div>
+						</div>
+					</div>
+
+					<!-- TO-DO LIST SECTION -->
+					<div class="file-wrap to-do-list hidden" id="todo">
+						<div class="form-modal hidden">
+							<div class="modal-heading flex">
+								<h2>ENTER TODO DETAILS</h2>
+								<span class="material-symbols-rounded md-18 close close-modal">
+									close
+								</span>
+							</div>
+
+							<form class="todo-form grid grid-1-col grid-gap-md">
+								<div class="form-row">
+									<label>Todo Group Name</label><br />
+									<input
+										class="todo-input todo-groupname"
+										type="text"
+										placeholder="Type todo group name"
+										maxlength="30"
+									/>
+								</div>
+
+								<div class="form-row">
+									<label>Todo</label><br />
+									<input
+										class="todo-input todo-input_value"
+										type="text"
+										placeholder="Type a todo here..."
+										maxlength="30"
+									/>
+								</div>
+
+								<div class="form-row flex flex-gap-md">
+									<div>
+										<label>Date</label><br />
+										<input
+											class="todo-input date"
+											type="date"
+											placeholder="Date"
+										/>
+									</div>
+
+									<div>
+										<label>Priority level</label><br />
+										<select class="todo-input priority">
+											<option>------</option>
+											<option>High</option>
+											<option>Medum</option>
+											<option>Low</option>
+										</select>
+										<!-- <input class="todo-input" type="text" /> -->
+									</div>
+								</div>
+
+								<div class="form-row">
+									<label>Time Frame: </label>
+
+									<div class="flex flex-gap-md">
+										<div class="flex flex-gap-sm">
+											<label>From </label>
+											<input class="todo-input tframe-from" type="time" />
+										</div>
+										<div class="flex flex-gap-sm">
+											<label>To </label>
+											<input class="todo-input tframe-to" type="time" />
+										</div>
+									</div>
+								</div>
+								<button class="btn btn-add">
+									<span class="material-symbols-rounded md-18 add"> add </span
+									>Add
+								</button>
+							</form>
+						</div>
+
+						<div class="container grid grid-3-cols">
+							<div class="todo-sidebar">
+								<button class="btn create-todo">Create todo</button>
+								<div>
+									<p class="todo-title">My todo items</p>
+									<ul class="todo-list"></ul>
+								</div>
+							</div>
+							<div
+								class="todo-body"
+								contenteditable="false"
+								data-placeholder="You have no active todo entries. Click the create todo button to start"
+							>
+								<div class="todo-body-container hidden">
+									<h2 class="todo-heading"></h2>
+									<ul class="todo-list-items hidden"></ul>
+									<button class="btn btn-save hidden">Save</button>
+								</div>
+
+								<div class="todo-modal hidden">
+									<span
+										class="material-symbols-rounded md-18 close close-todo-modal"
+									>
+										close
+									</span>
+
+									<form class="todo-form grid grid-1-col grid-gap-md">
+										<div class="form-row">
+											<p>Todo Name: <span class="todo">Go to church</span></p>
+										</div>
+
+										<div class="form-row">
+											<p>Date: <span class="todo-date">15/12/2024</span></p>
+										</div>
+
+										<div class="form-row">
+											<p>
+												Priority Level: <span class="todo-priority">High</span>
+											</p>
+										</div>
+
+										<div class="form-row flex">
+											<div><p>Timeframe:</p></div>
+
+											<div class="todo-duration flex">
+												<div><span class="todo-from">9 : 30</span></div>
+												<span class="to">To</span>
+												<div><span class="todo-to">5 : 25</span></div>
+											</div>
+										</div>
+
+										<div class="form-row">
+											<p>Status: <span class="todo-status">Done</span></p>
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<div class="percentage-complete">
+								<div>
+									<p class="percent-complete">80%</p>
+								</div>
+								<p>
+									You have completed
+									<span class="percent-complete_span"></span>
+									of your tasks. Setting goals and achieving them can be
+									satisfying
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- DIARY SECTION -->
+					<div class="file-wrap diary hidden" id="diary">DIARY</div>
+				</div>
+			</main>
+		</div>
+		<script src="scripts/script.js"></script>
+		<script type="module" src="scripts/main.js"></script>
+	</body>
+</html>

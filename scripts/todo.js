@@ -92,31 +92,7 @@ class TodoList {
 		this.percentComplete();
 	}
 
-	createTodoFunction(e) {
-		e.preventDefault();
-
-		if (themeValue.textContent === "Night") {
-			formModal.style.backgroundColor = bodyStyle.color;
-			formModal.style.color = bodyStyle.backgroundColor;
-		}
-
-		formModal.classList.remove("hidden");
-		document.querySelector(".overlay").classList.remove("hidden");
-
-		if (!todoHeading.id) formModal.id = "todoGroupID-".concat(randomNums());
-		if (todoHeading.id) {
-			formModal.id = todoHeading.id;
-			groupName.value = todoHeading.textContent;
-		}
-
-		todoInput.value =
-			todoDate.value =
-			priority.value =
-			timeframeFrom.value =
-			timeframeTo.value =
-				"";
-	}
-
+	// HELPER FUNCTIONS
 	updateTodo(object, ul, todoEl) {
 		if (ul === todoUL) {
 			const {
@@ -155,6 +131,7 @@ class TodoList {
 								close
 							</span>
 						</li>
+
 	`;
 
 		return ul.insertAdjacentHTML("afterbegin", html);
@@ -181,35 +158,68 @@ class TodoList {
 	checkBoxFunction(e, checkBox) {
 		const target = e.target.parentElement.parentElement;
 
+		const targetObject = this.todoObjectArray.find(
+			(arrayItem) => arrayItem.todoId === target.id
+		);
+
 		if (!checkBox.hasAttribute("checked")) {
 			checkBox.setAttribute("checked", "");
-
-			const targetObject = this.todoObjectArray.find(
-				(arrayItem) => arrayItem.todoId === target.id
-			);
-
 			targetObject.checked = true;
-			this.setLocalStorage("todos", this.todoObjectArray);
 		} else {
 			checkBox.removeAttribute("checked");
-
-			const targetObject = this.todoObjectArray.find(
-				(arrayItem) => arrayItem.todoId === target.id
-			);
-
 			targetObject.checked = false;
-			this.setLocalStorage("todos", this.todoObjectArray);
 		}
 
+		this.setLocalStorage("todos", this.todoObjectArray);
 		this.percentComplete();
 	}
 
-	formatFunction() {
+	addExplodeFormat() {
 		saveTodoBtn.classList.remove("hidden");
 		todoUL.classList.remove("hidden");
 
 		todoBody.removeAttribute("data-placeholder");
 		todoBodyContainer.classList.remove("hidden");
+	}
+
+	saveDeleteFormat() {
+		todoHeading.textContent = "";
+		todoHeading.removeAttribute("id");
+		saveTodoBtn.classList.add("hidden");
+		todoBodyContainer.classList.add("hidden");
+		todoBody.setAttribute(
+			"data-placeholder",
+			"You do not have any active todo entries. Click the create todo button to start"
+		);
+	}
+
+	clearFormInputs() {
+		todoInput.value =
+			todoDate.value =
+			priority.value =
+			timeframeFrom.value =
+			timeframeTo.value =
+				"";
+	}
+
+	createTodoFunction(e) {
+		e.preventDefault();
+
+		if (themeValue.textContent === "Night") {
+			formModal.style.backgroundColor = bodyStyle.color;
+			formModal.style.color = bodyStyle.backgroundColor;
+		}
+
+		formModal.classList.remove("hidden");
+		document.querySelector(".overlay").classList.remove("hidden");
+
+		if (!todoHeading.id) formModal.id = "todoGroupID-".concat(randomNums());
+		if (todoHeading.id) {
+			formModal.id = todoHeading.id;
+			groupName.value = todoHeading.textContent;
+		}
+
+		this.clearFormInputs();
 	}
 
 	explodeTodo(e) {
@@ -232,7 +242,7 @@ class TodoList {
 		todoPriority.textContent = targetTodo.priority;
 		todoFrom.textContent = targetTodo.from;
 		todoTo.textContent = targetTodo.to;
-		todoStatus.textContent = targetTodo.checked === true ? "Done" : "Pending";
+		todoStatus.textContent = targetTodo.checked ? "Done" : "Pending";
 
 		if (themeValue.textContent === "Night") {
 			todoModal.style.backgroundColor = bodyStyle.color;
@@ -271,16 +281,10 @@ class TodoList {
 		// });
 
 		this.percentComplete();
-
-		this.formatFunction();
+		this.addExplodeFormat();
 
 		todoInput.focus();
-		todoInput.value =
-			todoDate.value =
-			priority.value =
-			timeframeFrom.value =
-			timeframeTo.value =
-				"";
+		this.clearFormInputs();
 	}
 
 	saveTodos() {
@@ -326,27 +330,13 @@ class TodoList {
 		}
 
 		formModal.removeAttribute("id");
-		todoHeading.removeAttribute("id");
 
 		this.setLocalStorage("todos", this.todoObjectArray);
 		this.setLocalStorage("groupId", this.todoListArray);
+		this.saveDeleteFormat();
+		this.clearFormInputs();
 
-		todoBodyContainer.classList.add("hidden");
-		saveTodoBtn.classList.add("hidden");
-
-		todoBody.setAttribute(
-			"data-placeholder",
-			"You do not have any active todo entries. Click the create todo button to start"
-		);
-
-		todoHeading.textContent =
-			groupName.value =
-			todoInput.value =
-			todoDate.value =
-			priority.value =
-			timeframeFrom.value =
-			timeframeTo.value =
-				"";
+		groupName.value = "";
 	}
 
 	explodeView(e) {
@@ -383,7 +373,7 @@ class TodoList {
 				this.checkBoxFunction(e, checkBox);
 			});
 
-			this.formatFunction();
+			this.addExplodeFormat();
 		});
 		console.log(target.parentElement.id, targetTodo.array);
 	}
@@ -423,6 +413,7 @@ class TodoList {
 			// If array property of the container todo list's object is empty delete container todo list's object from this.todoListArray
 			if (todoListItem.array.length === 0) {
 				this.deleteTodoCallBack(targetTodo.id, this.todoListArray, "groupId");
+				this.saveDeleteFormat();
 
 				targetTodo.remove();
 			}
@@ -434,14 +425,7 @@ class TodoList {
 				todo.remove();
 			});
 
-			todoHeading.textContent = "";
-			todoHeading.removeAttribute("id");
-			saveTodoBtn.classList.add("hidden");
-			todoBodyContainer.classList.add("hidden");
-			todoBody.setAttribute(
-				"data-placeholder",
-				"You do not have any active todo entries. Click the create todo button to start"
-			);
+			this.saveDeleteFormat();
 		}
 
 		if (deleteTarget.parentElement === todoUlMain) {
@@ -460,11 +444,6 @@ class TodoList {
 
 			this.deleteTodoCallBack(deleteTarget.id, this.todoListArray, "groupId");
 			deleteTarget.remove();
-		}
-
-		if (todoItem === todoItem && todoUL.children?.length === 0) {
-			todoHeading.textContent = "";
-			saveTodoBtn.classList.add("hidden");
 		}
 
 		this.percentComplete();

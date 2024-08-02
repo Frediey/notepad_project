@@ -19,7 +19,7 @@ const saveBtn = document.querySelector(".save");
 const addFile = document.querySelector(".add-file");
 const summary = document.querySelector(".summary");
 const fileWrap = document.querySelectorAll(".file-wrap");
-const anchors = document.querySelectorAll(".menu-list-link");
+const anchors = document.querySelectorAll(".nav-item");
 const files = document.querySelector(".files");
 const closeBtns = document.querySelectorAll(".close");
 const emptyBookmark = document.querySelector(".bookmark > .bookmark");
@@ -34,9 +34,10 @@ const bodyStyle = document.body.style;
 
 // Default active tab
 let activeEl = Array.from(anchors).find((anchor) =>
-	anchor.parentElement.classList.contains("active")
+	anchor.classList.contains("active")
 );
-activeEl.parentElement.style.borderBottom = `4px solid ${bodyStyle.color}`;
+// activeEl.style.borderBottom = `4px solid ${bodyStyle.color}`;
+activeEl.style.fontVariationSettings = `FILL 1`;
 
 // Day and night implementation helper function
 function dayNightImplementation(lists) {
@@ -61,7 +62,7 @@ const toggles = function (firstColor, secondColor) {
 	settingsPage.style.color = bodyStyle.color;
 	settingsPage.style.backgroundColor = bodyStyle.backgroundColor;
 
-	activeEl.parentElement.style.borderBottom = `4px solid ${bodyStyle.color}`;
+	activeEl.style.borderBottom = `4px solid ${bodyStyle.color}`;
 
 	if (unorderedList?.contains(listItem)) {
 		dayNightImplementation(fileList);
@@ -100,16 +101,18 @@ toggleDayAndNight.addEventListener("click", toggle);
 // Callback Functions
 function tabFormat() {
 	anchors.forEach((anchor) => {
-		anchor.parentElement.classList?.remove("active");
-		anchor.parentElement.style.borderBottom = "";
+		anchor.classList?.remove("active");
+		anchor.style.color = "";
+		anchor.style.backgroundColor = "";
 	});
 }
 
 function callBack(e, tab) {
 	tab.classList.remove("hidden");
 	tab.style.display = "block";
-	e.target.parentElement.style.borderBottom = `4px solid ${textField.style.backgroundColor}`;
-	e.target.parentElement.classList.add("active");
+	// e.target.parentElement.style.borderBottom = `4px solid ${textField.style.backgroundColor}`;
+	e.target.parentElement.style.fill = `${textField.style.backgroundColor}`;
+	e.target.classList.add("active");
 }
 
 function tabActive(e) {
@@ -135,14 +138,14 @@ anchors.forEach((anchor) => {
 	});
 });
 
-addFile.addEventListener("click", (e) => {
-	clearText();
-	tabFormat();
-	tabActive(e);
-	fileWrap.forEach((tab) => {
-		if (tab.id === e.target.previousElementSibling.id) callBack(e, tab);
-	});
-});
+// addFile.addEventListener("click", (e) => {
+// 	clearText();
+// 	tabFormat();
+// 	tabActive(e);
+// 	fileWrap.forEach((tab) => {
+// 		if (tab.id === e.target.previousElementSibling.id) callBack(e, tab);
+// 	});
+// });
 
 ////////////////
 /// NEW FILE ///

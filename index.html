@@ -15,7 +15,7 @@
 		<div class="overlay hidden"></div>
 		<div class="overlay-explode hidden"></div>
 		<div class="wrap-box">
-			<header>
+			<!-- <header>
 				<div class="main-header">
 					<p class="logo">N</p>
 					<div class="buttons">
@@ -34,6 +34,7 @@
 						</span>
 					</div>
 				</div>
+				
 				<div class="menu">
 					<ul class="menu-list grid grid-4-cols">
 						<li class="menu-list-item flex flex-gap-sm main-tab active">
@@ -54,7 +55,67 @@
 						</li>
 					</ul>
 				</div>
-			</header>
+			</header> -->
+
+			<div class="sidebar">
+				<div class="nav-bar">
+					<p class="logo">N</p>
+
+					<ul class="nav">
+						<li class="nav-item main-tab active">
+							<span class="material-symbols-rounded lg-32" id="file">
+								add_notes
+							</span>
+							<p class="nav-label">Files</p>
+						</li>
+
+						<li class="nav-item">
+							<span class="material-symbols-rounded lg-32" id="bookmark">
+								book
+							</span>
+							<p class="nav-label">Bookmarks</p>
+						</li>
+
+						<li class="nav-item">
+							<span class="material-symbols-rounded lg-32" id="todo">
+								list_alt
+							</span>
+							<p class="nav-label">To-do List</p>
+						</li>
+
+						<li class="nav-item">
+							<span class="material-symbols-rounded lg-32" id="diary">
+								clinical_notes
+							</span>
+							<p class="nav-label">Diary</p>
+						</li>
+					</ul>
+				</div>
+
+				<!-- <span class="material-symbols-rounded md-18 add-file"> add </span> -->
+				<div class="buttons">
+					<div class="toggle-buttons">
+						<div class="toggle-day">
+							<span class="material-symbols-rounded md-18"> toggle_on </span>
+							<span class="background-day"></span>
+						</div>
+						<div class="toggle-night hidden">
+							<span class="material-symbols-rounded md-18"> toggle_off </span>
+							<span class="background-night"></span>
+						</div>
+					</div>
+					<span class="material-symbols-rounded settings lg-32">
+						settings
+					</span>
+					<div class="profile">
+						<img
+							class="profile-pic"
+							src="img/Profile-Picture.jpeg"
+							alt="profile-picture"
+						/>
+					</div>
+				</div>
+			</div>
 
 			<!-- SETTINGS TAB -->
 			<div class="settings-page wrap-box hidden">

@@ -28,7 +28,7 @@ const emptyBookmark = document.querySelector(".bookmark > .bookmark");
 /// DAY AND NIGHT TOGGLE ///
 ////////////////////////////
 const color1 = "#050517";
-const color2 = "#fff";
+const color2 = "#f8f8f8";
 const color3 = "#4530ce";
 const bodyStyle = document.body.style;
 
@@ -36,8 +36,9 @@ const bodyStyle = document.body.style;
 let activeEl = Array.from(anchors).find((anchor) =>
 	anchor.classList.contains("active")
 );
-// activeEl.style.borderBottom = `4px solid ${bodyStyle.color}`;
-activeEl.style.fontVariationSettings = `FILL 1`;
+activeEl.style.borderLeft = `4px solid ${bodyStyle.color}`;
+console.log(activeEl);
+// activeEl.style.fontVariationSettings = `FILL 1`;
 
 // Day and night implementation helper function
 function dayNightImplementation(lists) {
@@ -50,8 +51,10 @@ function dayNightImplementation(lists) {
 // Toggle functionality
 const toggles = function (firstColor, secondColor) {
 	activeEl = Array.from(anchors).find((anchor) =>
-		anchor.parentElement.classList.contains("active")
+		anchor.classList.contains("active")
 	);
+
+	console.log(activeEl);
 
 	bodyStyle.backgroundColor = secondColor;
 	bodyStyle.color = firstColor;
@@ -62,9 +65,10 @@ const toggles = function (firstColor, secondColor) {
 	settingsPage.style.color = bodyStyle.color;
 	settingsPage.style.backgroundColor = bodyStyle.backgroundColor;
 
-	activeEl.style.borderBottom = `4px solid ${bodyStyle.color}`;
+	activeEl.style.borderLeft = `6px solid ${bodyStyle.color}`;
 
 	if (unorderedList?.contains(listItem)) {
+		console.log("contains listItem");
 		dayNightImplementation(fileList);
 	}
 
@@ -102,17 +106,18 @@ toggleDayAndNight.addEventListener("click", toggle);
 function tabFormat() {
 	anchors.forEach((anchor) => {
 		anchor.classList?.remove("active");
-		anchor.style.color = "";
-		anchor.style.backgroundColor = "";
+		anchor.style.borderLeft = "";
 	});
 }
 
 function callBack(e, tab) {
 	tab.classList.remove("hidden");
 	tab.style.display = "block";
-	// e.target.parentElement.style.borderBottom = `4px solid ${textField.style.backgroundColor}`;
-	e.target.parentElement.style.fill = `${textField.style.backgroundColor}`;
-	e.target.classList.add("active");
+	e.target.parentElement.style.borderLeft = `6px solid ${bodyStyle.color}`;
+	e.target.parentElement.classList.add("active");
+
+	const title = document.querySelector(".title");
+	title.innerText = e.target.nextElementSibling.innerText;
 }
 
 function tabActive(e) {

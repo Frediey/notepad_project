@@ -1,3 +1,51 @@
+////////////////
+/// NEW FILE ///
+////////////////
+// .gitignore
+const alphaNumeric = [
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
+	0,
+	1,
+	2,
+	3,
+	4,
+	5,
+	6,
+	7,
+	8,
+	9,
+];
+
+let fileList;
+let listItem;
+let unorderedList = document.querySelector(".summary > .summary-list");
+let bookmarkList = document.querySelector(".bookmark-list");
+
 // NEW FILE WITH OOP
 // Constructor function
 class Newfile {
@@ -11,11 +59,34 @@ class Newfile {
 	}
 
 	setFileId() {
-		return `file${this.date.getTime()}`;
+		const numArray = [];
+		let randomNum;
+		for (let i = 0; i < 15; i++) {
+			if (numArray.length === 15) return;
+
+			randomNum = Math.round(Math.random() * 35);
+
+			numArray.push(randomNum);
+		}
+		console.log(numArray);
+
+		const output = `fileID-${numArray
+			.map((arrayItem) => alphaNumeric[arrayItem])
+			.toString()
+			.split(",")
+			.join("")}`;
+
+		console.log(numArray.map((arrayItem) => alphaNumeric[arrayItem]));
+
+		return output;
+
+		// return `file${this.date.getTime()}`;
 	}
 
 	setCreationDate() {
-		return this.date.toISOString().slice(0, 10);
+		const dateString = this.date.toISOString().slice(0, 10);
+		const timeString = this.date.toLocaleTimeString();
+		return `${dateString} ${timeString}`;
 	}
 }
 

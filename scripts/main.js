@@ -23,6 +23,8 @@ const anchors = document.querySelectorAll(".nav-item");
 const files = document.querySelector(".files");
 const closeBtns = document.querySelectorAll(".close");
 const emptyBookmark = document.querySelector(".bookmark > .bookmark");
+const todoList = document.querySelector(".to-do-list");
+const diary = document.querySelector(".diary");
 
 ////////////////////////////
 /// DAY AND NIGHT TOGGLE ///
@@ -36,7 +38,7 @@ const bodyStyle = document.body.style;
 let activeEl = Array.from(anchors).find((anchor) =>
 	anchor.classList.contains("active")
 );
-activeEl.style.borderLeft = `4px solid ${bodyStyle.color}`;
+activeEl.style.borderLeft = `6px solid ${bodyStyle.color}`;
 console.log(activeEl);
 // activeEl.style.fontVariationSettings = `FILL 1`;
 
@@ -58,10 +60,13 @@ const toggles = function (firstColor, secondColor) {
 
 	bodyStyle.backgroundColor = secondColor;
 	bodyStyle.color = firstColor;
-	bookmarkField.style.backgroundColor = bodyStyle.color;
-	bookmarkField.style.color = bodyStyle.backgroundColor;
-	textField.style.backgroundColor = bodyStyle.color;
-	textField.style.color = bodyStyle.backgroundColor;
+	fileWrap.style.color = bodyStyle.backgroundColor;
+	fileWrap.style.backgroundColor = bodyStyle.color;
+
+	// todoList.style.backgroundColor = bodyStyle.backgroundColor;
+	// todoList.style.color = bodyStyle.color;
+	// diary.style.backgroundColor = bodyStyle.color;
+	// diary.style.color = bodyStyle.backgroundColor;
 	settingsPage.style.color = bodyStyle.color;
 	settingsPage.style.backgroundColor = bodyStyle.backgroundColor;
 
@@ -111,10 +116,16 @@ function tabFormat() {
 }
 
 function callBack(e, tab) {
+	const target = e.target.closest("span");
+	if (!target) return;
+
+	console.log(target);
+	console.log(target.parentElement);
+
 	tab.classList.remove("hidden");
 	tab.style.display = "block";
-	e.target.parentElement.style.borderLeft = `6px solid ${bodyStyle.color}`;
-	e.target.parentElement.classList.add("active");
+	target.parentElement.style.borderLeft = `6px solid ${bodyStyle.color}`;
+	target.parentElement.classList.add("active");
 
 	const title = document.querySelector(".title");
 	title.innerText = e.target.nextElementSibling.innerText;
@@ -152,14 +163,6 @@ anchors.forEach((anchor) => {
 // 	});
 // });
 
-////////////////
-/// NEW FILE ///
-////////////////
-let fileList;
-let listItem;
-let unorderedList = document.querySelector(".summary > .summary-list");
-let bookmarkList = document.querySelector(".bookmark-list");
-
 //////////////////////////////////////
 /// SETTINGS
 /////////////////////////////////////
@@ -189,8 +192,8 @@ class Setting {
 		this.fontSizeFunction();
 		// this.themeSetting();
 
-		fontSizeSelectors[1].style.backgroundColor = color3;
-		this.defaultFontSize = fontSizeSelectors[1].id;
+		fontSizeSelectors[0].style.backgroundColor = color3;
+		this.defaultFontSize = fontSizeSelectors[0].id;
 		html.style.fontSize = `${(this.defaultFontSize / 16) * 100}%`;
 		// console.log(html.style.fontSize);
 	}

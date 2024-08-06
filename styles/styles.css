@@ -110,9 +110,10 @@ body::-webkit-scrollbar {
 }
 
 .file-wrap {
+	color: inherit;
 	background-color: #fff;
-	height: 80vh;
-	max-width: 90rem;
+	height: 70vh;
+	max-width: 80rem;
 	padding: 1.5rem;
 	margin: 2rem auto;
 	border-radius: 2rem;
@@ -129,7 +130,7 @@ body::-webkit-scrollbar {
 .logo {
 	display: inline-block;
 	font-size: 4rem;
-	padding: 2rem;
+	padding: 1rem;
 	text-align: center;
 	cursor: pointer;
 	border-bottom: 0.1rem solid #c5c5c5;
@@ -324,7 +325,7 @@ body::-webkit-scrollbar {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	width: 10rem;
+	width: 8rem;
 	height: 100vh;
 	border-right: 0.1rem solid #c5c5c5;
 	text-transform: uppercase;
@@ -380,7 +381,7 @@ main {
 }
 
 .summary {
-	height: 92%;
+	height: 80%;
 	overflow-y: scroll;
 }
 
@@ -407,7 +408,7 @@ main {
 	justify-content: space-between;
 	padding: 0.8rem 2rem;
 	font-size: 1rem;
-	height: 8rem;
+	height: 6rem;
 	border-radius: 2rem;
 	margin-bottom: 1.2rem;
 	cursor: pointer;
@@ -457,7 +458,7 @@ main {
 
 .text-field {
 	max-width: 60rem;
-	height: 92%;
+	height: 80%;
 	background-color: #050517;
 	color: #fff;
 	border-radius: 2rem;
@@ -515,6 +516,12 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	color: #b3b3b3;
 }
 
+.img-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .bookmark-logo {
 	width: 10rem;
 	height: 10rem;
@@ -524,6 +531,7 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 
 .bookmark .container {
 	display: none;
+	height: 100%;
 }
 
 .bookmark .container.bookmark {
@@ -535,24 +543,31 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 /* To-DO List*/
 .to-do-list {
 	position: relative;
+	/* overflow: hidden; */
+}
+
+.to-do-list > .container {
+	height: 100%;
+	color: inherit;
+	background-color: inherit;
 }
 
 .form-modal {
 	position: absolute;
-	top: 50%;
+	top: 45%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 50%;
 
 	background-color: white;
-	padding: 3rem 3rem 6rem 3rem;
+	padding: 3rem;
 	border-radius: 1.2rem;
 	box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
 	z-index: 10;
 }
 
 .todo-modal {
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -668,6 +683,12 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	cursor: pointer;
 }
 
+.todo {
+	font-size: 1.6rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
 .width-85 {
 	width: 85%;
 }
@@ -691,7 +712,6 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 
 .todo-body {
 	padding: 0 0.8rem;
-	/* border-right: 0.1rem solid #b3b3b3; */
 }
 
 .todo-input {

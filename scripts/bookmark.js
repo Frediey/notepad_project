@@ -29,6 +29,32 @@ const alphaNumeric = [
 	"X",
 	"Y",
 	"Z",
+	"a",
+	"b",
+	"c",
+	"d",
+	"e",
+	"f",
+	"g",
+	"h",
+	"i",
+	"j",
+	"k",
+	"l",
+	"m",
+	"n",
+	"o",
+	"p",
+	"q",
+	"r",
+	"s",
+	"t",
+	"u",
+	"v",
+	"w",
+	"x",
+	"y",
+	"z",
 	0,
 	1,
 	2,
@@ -50,21 +76,37 @@ let bookmarkList = document.querySelector(".bookmark-list");
 // Constructor function
 class Newfile {
 	date = new Date();
-
 	constructor(heading, note) {
 		this.heading = heading;
 		this.note = note;
 		this.creationDate = this.setCreationDate();
-		this.fileId = this.setFileId();
+		this.fileId = this.generateUID();
 	}
 
+	// Method 1
+	generateUID() {
+		const id = uuidv4();
+
+		return id;
+	}
+
+	// Method 2
+	generateUUID() {
+		return "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replaceAll("x", function (c) {
+			const r = (Math.random() * 16) | 0;
+			const v = c === "x" ? r : (r & 0x3) | 0x8;
+			return v.toString(16);
+		});
+	}
+
+	// Method 3
 	setFileId() {
 		const numArray = [];
 		let randomNum;
-		for (let i = 0; i < 15; i++) {
-			if (numArray.length === 15) return;
+		for (let i = 0; i < 20; i++) {
+			if (numArray.length === 20) return;
 
-			randomNum = Math.round(Math.random() * 35);
+			randomNum = Math.round(Math.random() * 61);
 
 			numArray.push(randomNum);
 		}
@@ -79,8 +121,6 @@ class Newfile {
 		console.log(numArray.map((arrayItem) => alphaNumeric[arrayItem]));
 
 		return output;
-
-		// return `file${this.date.getTime()}`;
 	}
 
 	setCreationDate() {
@@ -160,6 +200,8 @@ class Create {
 			textField.id = newFile.fileId;
 			this.update(newFile, unorderedList, this.fileArray);
 			this.fileArray.push(newFile);
+			clearTimeout(displayMsgTimeout);
+			displaySuccessMsg("File", "saved");
 		}
 
 		this.setLocalStorage("files", this.fileArray);
@@ -190,6 +232,9 @@ class Create {
 		this.bookmarkArray.push(currentFile);
 
 		this.setLocalStorage("bookmarks", this.bookmarkArray);
+
+		clearTimeout(displayMsgTimeout);
+		displaySuccessMsg("Bookmark", "saved");
 	}
 
 	// UI Update function
@@ -236,8 +281,6 @@ class Create {
 		// To implement day/night on all newly created list items
 		listItem = document.querySelector(".file-list");
 		fileList = Array.from(document.querySelectorAll(".file-list"));
-
-		dayNightImplementation(fileList);
 	}
 
 	// Save to Local Storage
@@ -288,9 +331,17 @@ class Create {
 		const item = e.target.parentElement;
 
 		array.splice(index, 1);
-		this.setLocalStorage(arrayName, array);
 
 		item.remove();
+
+		const itemType =
+			arrayName[0].toUpperCase() + arrayName.slice(1, arrayName.length - 1);
+
+		console.log(itemType);
+
+		displaySuccessMsg(itemType, "deleted");
+
+		this.setLocalStorage(arrayName, array);
 
 		if (deleteTarget.previousElementSibling.id === textField.id) clearText();
 

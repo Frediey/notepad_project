@@ -296,6 +296,9 @@ class TodoList {
 			todo.remove();
 		});
 
+		clearTimeout(displayMsgTimeout);
+		displaySuccessMsg("To-do", "saved");
+
 		// currently working here
 		const targetTodo = this.todoListArray.find(
 			(arrayItem) => arrayItem.todoId === todoHeading.id
@@ -383,6 +386,8 @@ class TodoList {
 
 		array.splice(index, 1);
 		this.setLocalStorage(arrayType, array);
+
+		arrayType;
 	}
 
 	deleteTodo(e, todoItem) {
@@ -393,6 +398,9 @@ class TodoList {
 			if (this.todoListArray.length === 0) return;
 
 			this.deleteTodoCallBack(deleteTarget.id, this.todoObjectArray, "todos");
+
+			clearTimeout(displayMsgTimeout);
+			displaySuccessMsg("To-do", "deleted");
 
 			// To find the container todo list
 			const targetTodo = Array.from(todoUlMain.children).find(
@@ -444,6 +452,9 @@ class TodoList {
 
 			this.deleteTodoCallBack(deleteTarget.id, this.todoListArray, "groupId");
 			deleteTarget.remove();
+
+			clearTimeout(displayMsgTimeout);
+			displaySuccessMsg("To-do list", "deleted");
 		}
 
 		this.percentComplete();

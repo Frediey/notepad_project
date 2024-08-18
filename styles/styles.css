@@ -13,10 +13,11 @@
 } */
 
 html {
-	font-size: 50%;
+	font-size: 75%;
 }
 
 body {
+	/* font-size: 1rem; */
 	font-family: "Roboto condensed";
 	color: #050517;
 	background-color: #f8f8f8;
@@ -76,6 +77,10 @@ body::-webkit-scrollbar {
 	/* flex-shrink: 0; */
 }
 
+.space-between {
+	justify-content: space-between;
+}
+
 .flex-gap-md {
 	gap: 1.2rem;
 }
@@ -100,6 +105,16 @@ body::-webkit-scrollbar {
 	cursor: pointer;
 }
 
+.page-loading {
+	display: block;
+	width: 100vw;
+	height: 100vh;
+	background-color: #fff;
+
+	position: absolute;
+	z-index: 100;
+}
+
 .wrap-box {
 	/* padding: 2rem 0; */
 	/* margin: 0 auto; */
@@ -107,6 +122,29 @@ body::-webkit-scrollbar {
 	/* max-width: 100%; */
 	overflow: hidden;
 	height: 100vh;
+
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+.files {
+	position: relative;
+}
+
+.success-msg-dialog {
+	color: #fff;
+	background-color: #050517;
+	padding: 0.8rem;
+	border-radius: 0.5rem;
+	width: 50%;
+	margin: 0 auto;
+	opacity: 0;
+	transition: opacity 1s;
+
+	position: absolute;
+	top: -4rem;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 .file-wrap {
@@ -116,7 +154,7 @@ body::-webkit-scrollbar {
 	max-width: 80rem;
 	padding: 1.5rem;
 	margin: 2rem auto;
-	border-radius: 2rem;
+	border-radius: 1.2rem;
 	position: relative;
 }
 
@@ -146,31 +184,27 @@ body::-webkit-scrollbar {
 }
 
 .settings-page {
-	width: 97vw;
+	width: 82vw;
 	height: 100vh;
 	position: absolute;
-	top: 5rem;
-	background-color: #fff;
+	top: 0rem;
+	left: 50%;
+	transform: translateX(-51%);
+	background-color: #f8f8f8;
 	opacity: 1;
 	z-index: 10;
 	/* transition: top 3s ease-in-out; */
 }
 
-.settings-page.hidden {
-	position: absolute;
-	top: 3rem;
-	right: -100%;
-}
-
 .settings-container {
 	width: 70%;
-	margin: 0 auto;
+	margin: 5rem auto 0 auto;
 }
 
-.settings-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+.settings-title {
+	text-transform: uppercase;
+	padding: 2.1rem;
+	font-size: 2.4rem;
 }
 
 .settings-tab {
@@ -206,10 +240,6 @@ body::-webkit-scrollbar {
 	height: 1rem;
 	width: 1rem;
 	border-radius: 50%;
-}
-
-.selector:first-child {
-	/* background-color: #4530ce; */
 }
 
 .selector:hover {
@@ -271,6 +301,11 @@ body::-webkit-scrollbar {
 	font-size: 2.4rem;
 }
 
+/* .toggle-day.hidden > .todo-item:hover {
+	color: #fff;
+	background-color: #050517;
+} */
+
 .settings {
 	border: none;
 }
@@ -287,7 +322,6 @@ body::-webkit-scrollbar {
 
 .profile {
 	padding: 1rem;
-	background-color: #fff;
 	border-radius: 2rem;
 }
 
@@ -360,6 +394,30 @@ body::-webkit-scrollbar {
 	gap: 2rem;
 }
 
+/* .nav-item span {
+	position: relative;
+}
+
+.nav-item span:focus:after,
+.nav-item span:hover:after {
+	position: absolute;
+	z-index: 1;
+	top: -2rem;
+	left: 0;
+	display: block;
+	overflow: hidden;
+	width: 17rem;
+	height: 2rem;
+	border-radius: 0.2rem;
+	padding: 0 0.7rem;
+	content: attr(aria-label);
+	color: #fff;
+	background: #000;
+	font-size: 1rem;
+	line-height: 2rem;
+	text-align: left;
+} */
+
 /* MAIN BODY */
 main {
 	margin-left: 10rem;
@@ -374,14 +432,24 @@ main {
 
 .container {
 	padding: 1rem 2rem;
-	height: 80vh;
+	height: 100%;
 	/* max-width: 80%; */
 	/* margin: auto; */
 	overflow-y: scroll;
 }
 
+.main {
+	position: relative;
+}
+
+.add-file.btn {
+	position: absolute;
+	top: -3.5rem;
+	left: -0.2rem;
+}
+
 .summary {
-	height: 80%;
+	height: 100%;
 	overflow-y: scroll;
 }
 
@@ -409,7 +477,7 @@ main {
 	padding: 0.8rem 2rem;
 	font-size: 1rem;
 	height: 6rem;
-	border-radius: 2rem;
+	border-radius: 1.2rem;
 	margin-bottom: 1.2rem;
 	cursor: pointer;
 	background-color: #050517;
@@ -458,10 +526,10 @@ main {
 
 .text-field {
 	max-width: 60rem;
-	height: 80%;
+	height: 100%;
 	background-color: #050517;
 	color: #fff;
-	border-radius: 2rem;
+	border-radius: 1.2rem;
 	overflow: hidden;
 }
 
@@ -548,8 +616,8 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 
 .to-do-list > .container {
 	height: 100%;
-	color: inherit;
-	background-color: inherit;
+	color: #050517;
+	/* background-color: inherit; */
 }
 
 .form-modal {
@@ -567,7 +635,7 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 }
 
 .todo-modal {
-	font-size: 1.2rem;
+	font-size: 1rem;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -603,6 +671,7 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	left: 0;
 	width: 100%;
 	height: 100%;
+	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.6);
 	/* backdrop-filter: blur(1px); */
 	z-index: 5;
@@ -625,6 +694,7 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	font-size: 0.8rem;
 	padding: 0.8rem 1.6rem;
 	border-radius: 0.8rem;
+	/* background-color: rgba(0, 0, 0, 0); */
 	color: inherit;
 	background-color: inherit;
 	cursor: pointer;
@@ -783,4 +853,8 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 
 .todo-from {
 	margin: 0 1.4rem;
+}
+
+.diary {
+	color: #050517;
 }

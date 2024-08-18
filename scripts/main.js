@@ -2,12 +2,16 @@
 
 ///////////////////////////////////////
 // Selectors
+const wrap = document.querySelector(".wrap-box");
+const pageLoad = document.querySelector(".page-loading");
 const themeValue = document.querySelector(".theme-value");
 const toggleDayAndNight = document.querySelector(".toggle-buttons");
 const toggleDay = document.querySelector(".toggle-day");
 const toggleNight = document.querySelector(".toggle-night");
 const settings = document.querySelector(".settings");
 const main = document.querySelector(".main");
+const title = document.querySelector(".title");
+const messageDialog = document.querySelector(".success-msg-dialog");
 const textField = document.querySelector(".text-field");
 const textFieldTitle = document.querySelector(".text-field-title");
 const textArea = document.querySelector(".text-area");
@@ -22,6 +26,7 @@ const fileWrap = document.querySelectorAll(".file-wrap");
 const anchors = document.querySelectorAll(".nav-item");
 const files = document.querySelector(".files");
 const closeBtns = document.querySelectorAll(".close");
+const closeSuccessMsg = document.querySelector(".close-dialog");
 const emptyBookmark = document.querySelector(".bookmark > .bookmark");
 const todoList = document.querySelector(".to-do-list");
 const diary = document.querySelector(".diary");
@@ -32,77 +37,35 @@ const diary = document.querySelector(".diary");
 const color1 = "#050517";
 const color2 = "#f8f8f8";
 const color3 = "#4530ce";
-const bodyStyle = document.body.style;
+const bodyStyle = wrap.style;
 
 // Default active tab
+setTimeout(() => {
+	pageLoad.style.display = "none";
+	wrap.style.opacity = 1;
+}, 1000);
+
 let activeEl = Array.from(anchors).find((anchor) =>
 	anchor.classList.contains("active")
 );
 activeEl.style.borderLeft = `6px solid ${bodyStyle.color}`;
-console.log(activeEl);
-// activeEl.style.fontVariationSettings = `FILL 1`;
 
-// Day and night implementation helper function
-function dayNightImplementation(lists) {
-	lists.forEach((listItem) => {
-		listItem.style.backgroundColor = bodyStyle.color;
-		listItem.style.color = bodyStyle.backgroundColor;
-	});
+let displayMsgTimeout = undefined;
+
+function displaySuccessMsg(item, action) {
+	messageDialog.style.opacity = "0";
+	messageDialog.style.opacity = "1";
+	messageDialog.firstElementChild.firstElementChild.innerText = `${item} ${action} successfully`;
+
+	displayMsgTimeout = setTimeout(() => {
+		messageDialog.style.opacity = "0";
+	}, 3000);
 }
 
-// Toggle functionality
-const toggles = function (firstColor, secondColor) {
-	activeEl = Array.from(anchors).find((anchor) =>
-		anchor.classList.contains("active")
-	);
-
-	console.log(activeEl);
-
-	bodyStyle.backgroundColor = secondColor;
-	bodyStyle.color = firstColor;
-	fileWrap.style.color = bodyStyle.backgroundColor;
-	fileWrap.style.backgroundColor = bodyStyle.color;
-
-	// todoList.style.backgroundColor = bodyStyle.backgroundColor;
-	// todoList.style.color = bodyStyle.color;
-	// diary.style.backgroundColor = bodyStyle.color;
-	// diary.style.color = bodyStyle.backgroundColor;
-	settingsPage.style.color = bodyStyle.color;
-	settingsPage.style.backgroundColor = bodyStyle.backgroundColor;
-
-	activeEl.style.borderLeft = `6px solid ${bodyStyle.color}`;
-
-	if (unorderedList?.contains(listItem)) {
-		console.log("contains listItem");
-		dayNightImplementation(fileList);
-	}
-
-	themeSetting();
-};
-
-function themeSetting() {
-	toggleDay.classList.contains("hidden")
-		? (themeValue.textContent = "Night")
-		: (themeValue.textContent = "Day");
-}
-themeSetting();
-
-// Toggle Function
-const toggle = function () {
-	if (toggleDay.classList.contains("hidden")) {
-		toggleDay.classList.remove("hidden");
-		toggleNight.classList.add("hidden");
-
-		toggles(color1, color2);
-	} else {
-		toggleNight.classList.remove("hidden");
-		toggleDay.classList.add("hidden");
-
-		toggles(color2, color1);
-	}
-};
-
-toggleDayAndNight.addEventListener("click", toggle);
+closeSuccessMsg.addEventListener(
+	"click",
+	() => (messageDialog.style.opacity = "0")
+);
 
 /////////////////////////////
 //// TABS IMPLEMENTATION ////
@@ -113,6 +76,10 @@ function tabFormat() {
 		anchor.classList?.remove("active");
 		anchor.style.borderLeft = "";
 	});
+
+	!settingsPage.classList.contains("hidden")
+		? settingsPage.classList.add("hidden")
+		: "";
 }
 
 function callBack(e, tab) {
@@ -127,7 +94,6 @@ function callBack(e, tab) {
 	target.parentElement.style.borderLeft = `6px solid ${bodyStyle.color}`;
 	target.parentElement.classList.add("active");
 
-	const title = document.querySelector(".title");
 	title.innerText = e.target.nextElementSibling.innerText;
 }
 
@@ -154,28 +120,22 @@ anchors.forEach((anchor) => {
 	});
 });
 
-// addFile.addEventListener("click", (e) => {
-// 	clearText();
-// 	tabFormat();
-// 	tabActive(e);
-// 	fileWrap.forEach((tab) => {
-// 		if (tab.id === e.target.previousElementSibling.id) callBack(e, tab);
-// 	});
-// });
+addFile.addEventListener("click", (e) => {
+	clearText();
+});
 
 //////////////////////////////////////
 /// SETTINGS
 /////////////////////////////////////
 // Displaying and Hidding Settings Page
 const settingsPage = document.querySelector(".settings-page");
+const textAreas = document.getElementsByName("text-area");
 settings.addEventListener("click", () => {
 	settingsPage.classList.toggle("hidden");
 });
 
 // Font Size selection
 const fontSizeSelectors = document.querySelectorAll(".selector");
-const html = document.querySelector("html");
-// console.log(html);
 
 let idCount = 12;
 
@@ -190,12 +150,8 @@ class Setting {
 	constructor() {
 		this.settingId();
 		this.fontSizeFunction();
-		// this.themeSetting();
-
-		fontSizeSelectors[0].style.backgroundColor = color3;
-		this.defaultFontSize = fontSizeSelectors[0].id;
-		html.style.fontSize = `${(this.defaultFontSize / 16) * 100}%`;
-		// console.log(html.style.fontSize);
+		this.getStoredSettings();
+		toggleDayAndNight.addEventListener("click", this.toggle.bind(this));
 	}
 
 	settingId() {
@@ -206,29 +162,89 @@ class Setting {
 	}
 
 	fontSizeFunction() {
+		fontSizeSelectors[0].style.backgroundColor = color3;
+
 		fontSizeSelectors.forEach((selector) => {
 			selector.addEventListener("click", (e) => {
-				console.log(selector.id);
-
 				fontSizeSelectors.forEach((selector) => {
 					selector.style.backgroundColor = "";
 				});
 
 				e.target.style.backgroundColor = color3;
 
-				html.style.fontSize = `${(selector.id / 16) * 100}%`;
-				// console.log(html.style.fontSize);
+				textAreas.forEach(
+					(textArea) => (textArea.style.fontSize = selector.id + "px")
+				);
+
+				this.currentFontSize = window.getComputedStyle(textArea).fontSize;
+
+				this.newSetting.fontSize = this.currentFontSize;
+				localStorage.setItem("settings", JSON.stringify(this.newSetting));
 			});
 		});
 	}
 
-	// Theme Day/Night
-	// themeSetting() {
-	// 	const themeValue = document.querySelector(".theme-value");
-	// 	toggleDay.classList.contains("hidden")
-	// 		? (themeValue.textContent = "Night")
-	// 		: (themeValue.textContent = "Day");
-	// }
+	getStoredSettings() {
+		const data = JSON.parse(localStorage.getItem("settings"));
+		if (!data) {
+			this.currentFontSize = fontSizeSelectors[0].id + "px";
+			this.newSetting = new SettingsObj(
+				this.currentFontSize,
+				themeValue.innerText
+			);
+			localStorage.setItem("settings", JSON.stringify(this.newSetting));
+		}
+
+		if (data) {
+			this.newSetting = data;
+
+			if (this.newSetting.theme === "Day") {
+				toggleDay.classList.add("hidden");
+				this.toggle();
+			} else {
+				toggleDay.classList.remove("hidden");
+				this.toggle();
+			}
+
+			const numInteger = parseFloat(this.newSetting.fontSize);
+			const fontTab = document.getElementById(numInteger);
+			fontTab.click();
+		}
+	}
+
+	toggles = function (firstColor, secondColor) {
+		activeEl = Array.from(anchors).find((anchor) =>
+			anchor.classList.contains("active")
+		);
+
+		bodyStyle.backgroundColor = secondColor;
+		bodyStyle.color = firstColor;
+		settingsPage.style.color = bodyStyle.color;
+		settingsPage.style.backgroundColor = bodyStyle.backgroundColor;
+
+		activeEl.style.borderLeft = `6px solid ${bodyStyle.color}`;
+	};
+
+	// Toggle Function
+	toggle = function () {
+		if (toggleDay.classList.contains("hidden")) {
+			toggleDay.classList.remove("hidden");
+			toggleNight.classList.add("hidden");
+			addFile.style.color = color1;
+			themeValue.textContent = this.newSetting.theme = "Day";
+
+			this.toggles(color1, color2);
+			localStorage.setItem("settings", JSON.stringify(this.newSetting));
+		} else {
+			toggleNight.classList.remove("hidden");
+			toggleDay.classList.add("hidden");
+			addFile.style.color = color1;
+			themeValue.textContent = this.newSetting.theme = "Night";
+
+			this.toggles(color2, color1);
+			localStorage.setItem("settings", JSON.stringify(this.newSetting));
+		}
+	};
 }
 
-const newSetting = new Setting();
+const newSettingsObj = new Setting();

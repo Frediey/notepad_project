@@ -24,6 +24,7 @@ const todoPriority = document.querySelector(".todo-priority");
 const todoFrom = document.querySelector(".todo-from");
 const todoTo = document.querySelector(".todo-to");
 const todoStatus = document.querySelector(".todo-status");
+const errorMessage = document.querySelector(".error-message");
 
 // All form inputs
 const groupName = document.querySelector(".todo-groupname");
@@ -46,6 +47,20 @@ function randomNums() {
 
 	return numArray.toString().split(",").join("");
 }
+
+const formInputs = document.querySelectorAll(".todo-input");
+formInputs.forEach((formInput) => {
+	formInput.addEventListener("focusin", () => {
+		console.log("focusin is true");
+		formInput.style.border = "1px dotted #050517";
+	});
+
+	formInput.addEventListener("focusout", () =>
+		formInput.value === ""
+			? (formInput.style.border = "1px solid red")
+			: (formInput.style.border = "1px dotted #050517")
+	);
+});
 
 class Todo {
 	constructor(groupName, todoInput, date, priority, from, to, checkedState) {
@@ -214,6 +229,7 @@ class TodoList {
 		document.querySelector(".overlay").classList.remove("hidden");
 
 		if (!todoHeading.id) formModal.id = "todoGroupID-".concat(randomNums());
+
 		if (todoHeading.id) {
 			formModal.id = todoHeading.id;
 			groupName.value = todoHeading.textContent;
@@ -223,8 +239,6 @@ class TodoList {
 	}
 
 	explodeTodo(e) {
-		console.log("Trying to explode todo");
-
 		const target = e.target.closest(".todoName");
 
 		if (!target) return;
@@ -235,7 +249,6 @@ class TodoList {
 		const targetTodo = this.todoObjectArray.find(
 			(arrayItem) => arrayItem.todoId === target.parentElement.parentElement.id
 		);
-		console.log(target, targetTodo);
 
 		todoName.textContent = targetTodo.todoInput;
 		dateTodo.textContent = targetTodo.date;
@@ -253,6 +266,31 @@ class TodoList {
 	addTodoFunction(e) {
 		e.preventDefault();
 
+		const inputs = [
+			groupName,
+			todoInput,
+			todoDate,
+			priority,
+			timeframeFrom,
+			timeframeTo,
+		];
+
+		const validInputs = (...inputs) =>
+			inputs.every((input) => input.value !== "");
+
+		if (!validInputs(...inputs))
+			return [...inputs].forEach((input) => {
+				input.style.border = "1px dotted #050517";
+				if (input.value === "") {
+					errorMessage.style.display = "block";
+					input.style.border = "1px solid red";
+				}
+			});
+
+		[...inputs].forEach((input) => {
+			input.style.border = "1px dotted #050517";
+		});
+		errorMessage.style.display = "none";
 		todoHeading.id = formModal.id;
 		todoHeading.textContent = groupName.value.toUpperCase();
 
@@ -315,8 +353,6 @@ class TodoList {
 			);
 
 			targetTodoEl.firstElementChild.textContent = todoHeading.textContent;
-
-			console.log("theres no array", todoItemArray);
 		}
 
 		if (!targetTodo) {
@@ -350,8 +386,6 @@ class TodoList {
 			(arrayItem) => arrayItem.todoId === target.parentElement.id
 		);
 
-		console.log(targetTodo);
-
 		todoItem = document.querySelectorAll(".todo-item");
 		todoItem.forEach((todo) => {
 			todo.remove();
@@ -378,7 +412,6 @@ class TodoList {
 
 			this.addExplodeFormat();
 		});
-		console.log(target.parentElement.id, targetTodo.array);
 	}
 
 	deleteTodoCallBack(target, array, arrayType) {
@@ -386,8 +419,6 @@ class TodoList {
 
 		array.splice(index, 1);
 		this.setLocalStorage(arrayType, array);
-
-		arrayType;
 	}
 
 	deleteTodo(e, todoItem) {
@@ -486,6 +517,8 @@ class TodoList {
 		const data = JSON.parse(localStorage.getItem("groupId"));
 		if (!data) return;
 		this.todoListArray = data;
+
+		console.log(this.todoListArray, this.todoObjectArray);
 
 		this.todoListArray.forEach((arrayItem) => {
 			this.updateTodo(arrayItem, todoUlMain);

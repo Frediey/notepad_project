@@ -180,18 +180,20 @@
 
 			<main>
 				<div class="files">
-					<div class="success-msg-dialog">
+					<!-- <div class="success-msg-dialog">
 						<div class="flex space-between">
 							<p class="success-msg">Success message appears here</p>
 							<span class="material-symbols-rounded md-18 close close-dialog">
 								close
 							</span>
 						</div>
-					</div>
+					</div> -->
 					<!-- NOTES SECTION -->
 					<div class="file-wrap main" id="file">
-						<button class="add-file btn">New File</button>
-						<!-- <span class="material-symbols-rounded md-18 add-file"> add </span> -->
+						<button class="add-file flex-gap-sm btn">
+							New File
+							<span class="material-symbols-rounded md-18 add-file"> add </span>
+						</button>
 						<div class="container container-grid">
 							<div
 								class="summary"
@@ -277,6 +279,7 @@
 										type="text"
 										placeholder="Type todo group name"
 										maxlength="30"
+										required
 									/>
 								</div>
 
@@ -287,6 +290,7 @@
 										type="text"
 										placeholder="Type a todo here..."
 										maxlength="30"
+										required
 									/>
 								</div>
 
@@ -297,12 +301,13 @@
 											class="todo-input date"
 											type="date"
 											placeholder="Date"
+											required
 										/>
 									</div>
 
 									<div>
 										<label>Priority level</label><br />
-										<select class="todo-input priority">
+										<select class="todo-input priority" required>
 											<option>High</option>
 											<option>Medum</option>
 											<option>Low</option>
@@ -317,11 +322,19 @@
 									<div class="flex flex-gap-md">
 										<div class="flex flex-gap-sm">
 											<label>From </label>
-											<input class="todo-input tframe-from" type="time" />
+											<input
+												class="todo-input tframe-from"
+												type="time"
+												required
+											/>
 										</div>
 										<div class="flex flex-gap-sm">
 											<label>To </label>
-											<input class="todo-input tframe-to" type="time" />
+											<input
+												class="todo-input tframe-to"
+												type="time"
+												required
+											/>
 										</div>
 									</div>
 								</div>
@@ -329,6 +342,7 @@
 									<span class="material-symbols-rounded md-18 add"> add </span
 									>Add
 								</button>
+								<p class="error-message">Please fill all fields to continue</p>
 							</form>
 						</div>
 

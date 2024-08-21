@@ -301,10 +301,10 @@ body::-webkit-scrollbar {
 	font-size: 2.4rem;
 }
 
-/* .toggle-day.hidden > .todo-item:hover {
+.wrap-box .toggle-day.hidden .todo-item:hover {
 	color: #fff;
 	background-color: #050517;
-} */
+}
 
 .settings {
 	border: none;
@@ -312,7 +312,7 @@ body::-webkit-scrollbar {
 
 .title-profile-bar {
 	justify-content: space-between;
-	margin-left: 10rem;
+	margin: 0 0 4rem 10rem;
 	padding: 1rem;
 }
 
@@ -443,6 +443,10 @@ main {
 }
 
 .add-file.btn {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
 	position: absolute;
 	top: -3.5rem;
 	left: -0.2rem;
@@ -622,7 +626,7 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 
 .form-modal {
 	position: absolute;
-	top: 45%;
+	top: 40%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 50%;
@@ -632,6 +636,15 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	border-radius: 1.2rem;
 	box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
 	z-index: 10;
+}
+
+.error-message {
+	display: none;
+	position: absolute;
+	top: 81%;
+	left: 50%;
+	transform: translateX(-50%);
+	color: red;
 }
 
 .todo-modal {

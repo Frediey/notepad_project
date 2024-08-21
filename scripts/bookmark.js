@@ -159,7 +159,7 @@ class Create {
 	}
 
 	windowLoad(e) {
-		this.getStoragedFiles();
+		this.getStoredFiles();
 		this.getStoredBookmarks();
 	}
 
@@ -176,7 +176,6 @@ class Create {
 		}
 
 		const newFile = new Newfile(heading, note);
-		console.log(newFile.heading, newFile.fileId);
 
 		if (textField.id) {
 			const currentFile = this.fileArray.find(
@@ -215,7 +214,6 @@ class Create {
 			(file) => file.fileId === textField.id
 		);
 
-		console.log(this.bookmarkArray.includes(currentFile));
 		if (this.bookmarkArray.includes(currentFile)) return;
 
 		console.log(bookmarkList, currentFile.fileId);
@@ -263,14 +261,12 @@ class Create {
 	// Function to append list item
 	listItemAppend(ul, array) {
 		if (array === this.fileArray) {
-			console.log("trying to update files UI");
 			// To remove empty-file placeholder
 			summary.removeAttribute("data-placeholder");
 			summary.removeAttribute("contenteditable");
 		}
 
 		if (array === this.bookmarkArray) {
-			console.log("trying to update bookmarks UI");
 			emptyBookmark.style.display = "none";
 			emptyBookmark.previousElementSibling.style.display = "grid";
 			emptyBookmark.previousElementSibling.classList.remove("hidden");
@@ -289,7 +285,7 @@ class Create {
 	}
 
 	// Retrieve from Local Storage
-	getStoragedFiles() {
+	getStoredFiles() {
 		const data = JSON.parse(localStorage.getItem("files"));
 
 		if (!data) return;
@@ -337,8 +333,7 @@ class Create {
 		const itemType =
 			arrayName[0].toUpperCase() + arrayName.slice(1, arrayName.length - 1);
 
-		console.log(itemType);
-
+		clearTimeout(displayMsgTimeout);
 		displaySuccessMsg(itemType, "deleted");
 
 		this.setLocalStorage(arrayName, array);

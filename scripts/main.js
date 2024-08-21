@@ -39,12 +39,12 @@ const color2 = "#f8f8f8";
 const color3 = "#4530ce";
 const bodyStyle = wrap.style;
 
-// Default active tab
 setTimeout(() => {
 	pageLoad.style.display = "none";
 	wrap.style.opacity = 1;
 }, 1000);
 
+// Default active tab
 let activeEl = Array.from(anchors).find((anchor) =>
 	anchor.classList.contains("active")
 );
@@ -52,20 +52,36 @@ activeEl.style.borderLeft = `6px solid ${bodyStyle.color}`;
 
 let displayMsgTimeout = undefined;
 
+/////////////////////////////////
+//// DISPLAY SUCCESS MESSAGE ////
+/////////////////////////////////
 function displaySuccessMsg(item, action) {
-	messageDialog.style.opacity = "0";
-	messageDialog.style.opacity = "1";
-	messageDialog.firstElementChild.firstElementChild.innerText = `${item} ${action} successfully`;
+	const html = `<div class="success-msg-dialog">
+						      <div class="flex space-between">
+							      <p class="success-msg">${item} ${action} successfully</p>
+							      <span class="material-symbols-rounded md-18 close close-dialog">
+								      close
+							      </span>
+						      </div>
+					      </div>`;
 
-	displayMsgTimeout = setTimeout(() => {
-		messageDialog.style.opacity = "0";
-	}, 3000);
+	files.insertAdjacentHTML("afterbegin", html);
+
+	const messageDialogs = document.querySelectorAll(".success-msg-dialog");
+	const closeSuccessMsg = document.querySelector(".close-dialog");
+
+	for (let i = 0; i < messageDialogs.length; i++) {
+		messageDialogs[i].style.opacity = "0";
+		messageDialogs[i].style.opacity = "1";
+
+		displayMsgTimeout = setTimeout(() => {
+			messageDialogs[i].style.opacity = "0";
+			messageDialogs[i].remove();
+		}, 3000);
+
+		closeSuccessMsg.addEventListener("click", () => messageDialog[i].remove());
+	}
 }
-
-closeSuccessMsg.addEventListener(
-	"click",
-	() => (messageDialog.style.opacity = "0")
-);
 
 /////////////////////////////
 //// TABS IMPLEMENTATION ////
@@ -85,9 +101,6 @@ function tabFormat() {
 function callBack(e, tab) {
 	const target = e.target.closest("span");
 	if (!target) return;
-
-	console.log(target);
-	console.log(target.parentElement);
 
 	tab.classList.remove("hidden");
 	tab.style.display = "block";

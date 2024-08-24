@@ -50,6 +50,10 @@ body::-webkit-scrollbar {
 	grid-template-columns: 1fr;
 }
 
+.grid-2-cols {
+	grid-template-columns: 1fr 1fr;
+}
+
 .grid-3-cols {
 	grid-template-columns: 2fr 3fr 2.5fr;
 }
@@ -452,6 +456,10 @@ main {
 	left: -0.2rem;
 }
 
+.add-file.btn:hover {
+	color: #fff !important;
+}
+
 .summary {
 	height: 100%;
 	overflow-y: scroll;
@@ -629,13 +637,34 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	top: 40%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 50%;
+	width: 35rem;
 
 	background-color: white;
 	padding: 3rem;
 	border-radius: 1.2rem;
 	box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
 	z-index: 10;
+}
+
+.todo-input {
+	font-size: 1rem;
+	width: 100%;
+	border-radius: 0.8rem;
+	padding: 0.8rem 1.6rem;
+	border: 1px dotted #050517;
+	margin-top: 0.4rem;
+}
+
+.todo-input:focus {
+	outline: none;
+}
+
+.todo-groupname {
+	/* width: 60%; */
+}
+
+.todo-input_value {
+	/* width: 100%; */
 }
 
 .error-message {
@@ -648,7 +677,7 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 }
 
 .todo-modal {
-	font-size: 1rem;
+	font-size: 1.2rem;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -660,6 +689,12 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	border-radius: 1.2rem;
 	box-shadow: 0 0 0.6rem #e0e0e0;
 	z-index: 10;
+}
+
+.btn-edit {
+	display: flex;
+	justify-content: right;
+	margin: 2rem 0 0 auto;
 }
 
 .close-todo-modal {
@@ -686,7 +721,7 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	height: 100%;
 	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.6);
-	/* backdrop-filter: blur(1px); */
+
 	z-index: 5;
 }
 
@@ -722,7 +757,9 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 }
 
 .btn-save {
-	margin-left: 65%;
+	display: flex;
+	justify-content: right;
+	margin-left: auto;
 }
 
 .btn-add {
@@ -797,29 +834,8 @@ div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	padding: 0 0.8rem;
 }
 
-.todo-input {
-	font-size: 1rem;
-	width: 100%;
-	border-radius: 0.8rem;
-	padding: 0.8rem 1.6rem;
-	border: 1px dotted #050517;
-	margin-top: 0.4rem;
-}
-
-.todo-groupname {
-	width: 60%;
-}
-
-.todo-input_value {
-	width: 100%;
-}
-
 .todo-body ul {
 	margin: 2rem 0;
-}
-
-.todo-input:focus {
-	outline: none;
 }
 
 .checkbox {

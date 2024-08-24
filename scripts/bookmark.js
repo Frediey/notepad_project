@@ -124,7 +124,7 @@ class Newfile {
 	}
 
 	setCreationDate() {
-		const dateString = this.date.toISOString().slice(0, 10);
+		const dateString = this.date.toLocaleDateString().slice(0, 10);
 		const timeString = this.date.toLocaleTimeString();
 		return `${dateString} ${timeString}`;
 	}

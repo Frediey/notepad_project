@@ -9,6 +9,7 @@ const todoUlMain = document.querySelector(".todo-list");
 const todoUL = document.querySelector(".todo-list-items");
 const saveTodoBtn = document.querySelector(".btn-save");
 const addTodo = document.querySelector(".btn-add");
+const editTodoBtn = document.querySelector(".btn-edit");
 const todo = document.querySelectorAll(".to-do");
 const closeModal = document.querySelector(".close-modal");
 const todoBodyContainer = document.querySelector(".todo-body-container");
@@ -17,6 +18,7 @@ const percent = document.querySelector(".percent-complete");
 const percentSpan = document.querySelector(".percent-complete_span");
 const closeTodo = document.querySelector(".close-todo-modal");
 const todoOverlay = document.querySelector(".overlay-explode");
+const formModal = document.querySelector(".form-modal");
 const todoModal = document.querySelector(".todo-modal");
 const todoName = document.querySelector(".todo");
 const dateTodo = document.querySelector(".todo-date");
@@ -34,6 +36,15 @@ const priority = document.querySelector(".priority");
 const timeframeFrom = document.querySelector(".tframe-from");
 const timeframeTo = document.querySelector(".tframe-to");
 
+const inputs = [
+	groupName,
+	todoInput,
+	todoDate,
+	priority,
+	timeframeFrom,
+	timeframeTo,
+];
+
 function randomNums() {
 	const numArray = [];
 	let randomNum;
@@ -48,18 +59,21 @@ function randomNums() {
 	return numArray.toString().split(",").join("");
 }
 
-const formInputs = document.querySelectorAll(".todo-input");
-formInputs.forEach((formInput) => {
-	formInput.addEventListener("focusin", () => {
-		console.log("focusin is true");
-		formInput.style.border = "1px dotted #050517";
-	});
+[...inputs].forEach((formInput) => {
+	formInput.addEventListener(
+		"focusin",
+		() => (formInput.style.border = "1px dotted #050517")
+	);
 
-	formInput.addEventListener("focusout", () =>
+	formInput.addEventListener("focusout", () => {
 		formInput.value === ""
 			? (formInput.style.border = "1px solid red")
-			: (formInput.style.border = "1px dotted #050517")
-	);
+			: (formInput.style.border = "1px dotted #050517");
+
+		[...inputs].every((input) => input.value !== "")
+			? (errorMessage.style.display = "none")
+			: (errorMessage.style.display = "block");
+	});
 });
 
 class Todo {
@@ -100,7 +114,10 @@ class TodoList {
 		closeModal.addEventListener("click", this.closeModalFunction.bind(this));
 
 		closeTodo.addEventListener("click", this.closeTodoModal.bind(this));
+
 		todoOverlay.addEventListener("click", this.closeTodoModal.bind(this));
+
+		editTodoBtn.addEventListener("click", this.editTodo.bind(this));
 
 		this.getTodoObjectArray();
 		this.getTodoListArray();
@@ -116,8 +133,6 @@ class TodoList {
 				checkedState = object.checked,
 			} = object;
 
-			console.log(todo, todoId, checkedState);
-
 			this.todoList1(todo, todoId, checkedState, ul);
 
 			this.setDeleteBtn(todoEl);
@@ -125,8 +140,6 @@ class TodoList {
 
 		if (ul === todoUlMain) {
 			const { todo = object.groupName, todoId = object.todoId } = object;
-
-			console.log(todo, todoId);
 
 			this.todoList2(todo, todoId, ul);
 
@@ -243,12 +256,13 @@ class TodoList {
 
 		if (!target) return;
 
-		todoModal.classList.remove("hidden");
-		todoOverlay.classList.remove("hidden");
-
 		const targetTodo = this.todoObjectArray.find(
 			(arrayItem) => arrayItem.todoId === target.parentElement.parentElement.id
 		);
+
+		todoModal.id = targetTodo.todoId;
+		todoModal.classList.remove("hidden");
+		todoOverlay.classList.remove("hidden");
 
 		todoName.textContent = targetTodo.todoInput;
 		dateTodo.textContent = targetTodo.date;
@@ -263,17 +277,30 @@ class TodoList {
 		}
 	}
 
+	editTodo() {
+		const targetTodo = this.todoObjectArray.find(
+			(arrayItem) => arrayItem.todoId === todoModal.id
+		);
+
+		formModal.id = todoHeading.id;
+		groupName.readOnly = true;
+
+		groupName.value = targetTodo.groupName;
+		todoInput.value = targetTodo.todoInput;
+		todoDate.value = targetTodo.date;
+		priority.value = targetTodo.priority;
+		timeframeFrom.value = targetTodo.from;
+		timeframeTo.value = targetTodo.to;
+
+		console.log(targetTodo);
+		todoModal.classList.add("hidden");
+		todoOverlay.classList.add("hidden");
+		formModal.classList.remove("hidden");
+		document.querySelector(".overlay").classList.remove("hidden");
+	}
+
 	addTodoFunction(e) {
 		e.preventDefault();
-
-		const inputs = [
-			groupName,
-			todoInput,
-			todoDate,
-			priority,
-			timeframeFrom,
-			timeframeTo,
-		];
 
 		const validInputs = (...inputs) =>
 			inputs.every((input) => input.value !== "");
@@ -291,37 +318,63 @@ class TodoList {
 			input.style.border = "1px dotted #050517";
 		});
 		errorMessage.style.display = "none";
-		todoHeading.id = formModal.id;
-		todoHeading.textContent = groupName.value.toUpperCase();
 
-		const newTodo = new Todo(
-			groupName.value,
-			todoInput.value,
-			todoDate.value,
-			priority.value,
-			timeframeFrom.value,
-			timeframeTo.value,
-			false
-		);
+		if (!todoModal.id) {
+			todoHeading.id = formModal.id;
+			todoHeading.textContent = groupName.value.toUpperCase();
 
-		this.todoObjectArray.push(newTodo);
+			const newTodo = new Todo(
+				groupName.value,
+				todoInput.value,
+				todoDate.value,
+				priority.value,
+				timeframeFrom.value,
+				timeframeTo.value,
+				false
+			);
 
-		todoItem = document.querySelectorAll(".todo-item");
-		this.updateTodo(newTodo, todoUL, todoItem);
+			this.todoObjectArray.push(newTodo);
 
-		const checkBox = document.querySelector(".checkbox");
-		checkBox.addEventListener("click", (e) => {
-			this.checkBoxFunction(e, checkBox);
+			todoItem = document.querySelectorAll(".todo-item");
+			this.updateTodo(newTodo, todoUL, todoItem);
+
+			const checkBox = document.querySelector(".checkbox");
+			checkBox.addEventListener("click", (e) => {
+				this.checkBoxFunction(e, checkBox);
+			});
+		}
+
+		if (todoModal.id) {
+			const targetTodo = this.todoObjectArray.find(
+				(arrayItem) => arrayItem.todoId === todoModal.id
+			);
+
+			targetTodo.todoInput = todoInput.value;
+			targetTodo.date = todoDate.value;
+			targetTodo.priority = priority.value;
+			targetTodo.from = timeframeFrom.value;
+			targetTodo.to = timeframeTo.value;
+
+			todoItem = document.querySelectorAll(".todo-item");
+			const targetTodoEl = Array.from(todoItem).find(
+				(arrayItem) => arrayItem.id === targetTodo.todoId
+			);
+
+			targetTodoEl.firstElementChild.lastElementChild.innerText =
+				todoInput.value;
+
+			this.closeModalFunction();
+			this.clearFormInputs();
+		}
+
+		todoUL.addEventListener("click", (e) => {
+			this.explodeTodo(e);
 		});
-
-		// todoUL.addEventListener("click", (e) => {
-		// 	this.explodeTodo(e);
-		// });
 
 		this.percentComplete();
 		this.addExplodeFormat();
 
-		todoInput.focus();
+		groupName.readOnly = false;
 		this.clearFormInputs();
 	}
 
@@ -492,12 +545,21 @@ class TodoList {
 	}
 
 	closeModalFunction() {
+		groupName.readOnly = false;
 		formModal.removeAttribute("id");
 		formModal.classList.add("hidden");
 		document.querySelector(".overlay").classList.add("hidden");
+		!errorMessage.classList.contains("hidden")
+			? errorMessage.classList.add("hidden")
+			: "";
+
+		[...inputs].forEach((input) => {
+			input.style.border = "1px dotted #050517";
+		});
 	}
 
 	closeTodoModal() {
+		todoModal.removeAttribute("id");
 		todoModal.classList.add("hidden");
 		todoOverlay.classList.add("hidden");
 	}
@@ -562,5 +624,3 @@ class TodoList {
 }
 
 const todoNew = new TodoList();
-
-var formModal = document.querySelector(".form-modal");

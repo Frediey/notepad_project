@@ -23,7 +23,7 @@ const saveBtn = document.querySelector(".save");
 const addFile = document.querySelector(".add-file");
 const summary = document.querySelector(".summary");
 const fileWrap = document.querySelectorAll(".file-wrap");
-const anchors = document.querySelectorAll(".nav-item");
+const anchors = document.querySelectorAll(".nav-item > span");
 const files = document.querySelector(".files");
 const closeBtns = document.querySelectorAll(".close");
 const closeSuccessMsg = document.querySelector(".close-dialog");
@@ -46,9 +46,10 @@ setTimeout(() => {
 
 // Default active tab
 let activeEl = Array.from(anchors).find((anchor) =>
-	anchor.classList.contains("active")
+	anchor.parentElement.classList.contains("active")
 );
-activeEl.style.borderLeft = `6px solid ${bodyStyle.color}`;
+console.log(activeEl);
+activeEl.parentElement.style.borderLeft = `6px solid ${bodyStyle.color}`;
 
 let displayMsgTimeout = undefined;
 
@@ -89,8 +90,8 @@ function displaySuccessMsg(item, action) {
 // Callback Functions
 function tabFormat() {
 	anchors.forEach((anchor) => {
-		anchor.classList?.remove("active");
-		anchor.style.borderLeft = "";
+		anchor.parentElement.classList?.remove("active");
+		anchor.parentElement.style.borderLeft = "";
 	});
 
 	!settingsPage.classList.contains("hidden")
@@ -227,7 +228,7 @@ class Setting {
 
 	toggles = function (firstColor, secondColor) {
 		activeEl = Array.from(anchors).find((anchor) =>
-			anchor.classList.contains("active")
+			anchor.parentElement.classList.contains("active")
 		);
 
 		bodyStyle.backgroundColor = secondColor;
@@ -235,7 +236,7 @@ class Setting {
 		settingsPage.style.color = bodyStyle.color;
 		settingsPage.style.backgroundColor = bodyStyle.backgroundColor;
 
-		activeEl.style.borderLeft = `6px solid ${bodyStyle.color}`;
+		activeEl.parentElement.style.borderLeft = `6px solid ${bodyStyle.color}`;
 	};
 
 	// Toggle Function

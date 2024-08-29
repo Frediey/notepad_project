@@ -35,7 +35,7 @@ const diary = document.querySelector(".diary");
 /// DAY AND NIGHT TOGGLE ///
 ////////////////////////////
 const color1 = "#050517";
-const color2 = "#f8f8f8";
+const color2 = "#f0f0f0";
 const color3 = "#4530ce";
 const bodyStyle = wrap.style;
 
@@ -48,8 +48,9 @@ setTimeout(() => {
 let activeEl = Array.from(anchors).find((anchor) =>
 	anchor.parentElement.classList.contains("active")
 );
-console.log(activeEl);
+
 activeEl.parentElement.style.borderLeft = `6px solid ${bodyStyle.color}`;
+activeEl.parentElement.style.backgroundColor = "#fff";
 
 let displayMsgTimeout = undefined;
 
@@ -92,6 +93,7 @@ function tabFormat() {
 	anchors.forEach((anchor) => {
 		anchor.parentElement.classList?.remove("active");
 		anchor.parentElement.style.borderLeft = "";
+		anchor.parentElement.style.backgroundColor = "";
 	});
 
 	!settingsPage.classList.contains("hidden")
@@ -106,6 +108,7 @@ function callBack(e, tab) {
 	tab.classList.remove("hidden");
 	tab.style.display = "block";
 	target.parentElement.style.borderLeft = `6px solid ${bodyStyle.color}`;
+	target.parentElement.style.backgroundColor = "#fff";
 	target.parentElement.classList.add("active");
 
 	title.innerText = e.target.nextElementSibling.innerText;
@@ -137,6 +140,49 @@ anchors.forEach((anchor) => {
 addFile.addEventListener("click", (e) => {
 	clearText();
 });
+
+//////////////////////////////////////
+//// GENERATING UNIVERSAL USER ID ////
+//////////////////////////////////////
+function generateUID() {
+	const id = uuidv4();
+
+	console.log("UUID generated");
+	return id;
+}
+
+// Method 2
+function generateUUID() {
+	return "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replaceAll("x", function (c) {
+		const r = (Math.random() * 16) | 0;
+		const v = c === "x" ? r : (r & 0x3) | 0x8;
+		return v.toString(16);
+	});
+}
+
+// Method 3
+function setFileId() {
+	const numArray = [];
+	let randomNum;
+	for (let i = 0; i < 20; i++) {
+		if (numArray.length === 20) return;
+
+		randomNum = Math.round(Math.random() * 61);
+
+		numArray.push(randomNum);
+	}
+	console.log(numArray);
+
+	const output = `fileID-${numArray
+		.map((arrayItem) => alphaNumeric[arrayItem])
+		.toString()
+		.split(",")
+		.join("")}`;
+
+	console.log(numArray.map((arrayItem) => alphaNumeric[arrayItem]));
+
+	return output;
+}
 
 //////////////////////////////////////
 /// SETTINGS
@@ -262,3 +308,11 @@ class Setting {
 }
 
 const newSettingsObj = new Setting();
+
+////////////////////////////////////
+////COPYRIGHT SECTION///////////////
+////////////////////////////////////
+
+const copyrightDate = document.querySelector(".copyright-date");
+
+copyrightDate.textContent = new Date().getFullYear();

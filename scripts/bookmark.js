@@ -80,53 +80,13 @@ class Newfile {
 		this.heading = heading;
 		this.note = note;
 		this.creationDate = this.setCreationDate();
-		this.fileId = this.generateUID();
-	}
-
-	// Method 1
-	generateUID() {
-		const id = uuidv4();
-
-		return id;
-	}
-
-	// Method 2
-	generateUUID() {
-		return "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replaceAll("x", function (c) {
-			const r = (Math.random() * 16) | 0;
-			const v = c === "x" ? r : (r & 0x3) | 0x8;
-			return v.toString(16);
-		});
-	}
-
-	// Method 3
-	setFileId() {
-		const numArray = [];
-		let randomNum;
-		for (let i = 0; i < 20; i++) {
-			if (numArray.length === 20) return;
-
-			randomNum = Math.round(Math.random() * 61);
-
-			numArray.push(randomNum);
-		}
-		console.log(numArray);
-
-		const output = `fileID-${numArray
-			.map((arrayItem) => alphaNumeric[arrayItem])
-			.toString()
-			.split(",")
-			.join("")}`;
-
-		console.log(numArray.map((arrayItem) => alphaNumeric[arrayItem]));
-
-		return output;
+		this.fileId = generateUID();
 	}
 
 	setCreationDate() {
-		const dateString = this.date.toLocaleDateString().slice(0, 10);
-		const timeString = this.date.toLocaleTimeString();
-		return `${dateString} ${timeString}`;
+		const dateString = this.date.toDateString().slice(4);
+		const timeString = this.date.toTimeString().slice(0, 5);
+		return `${dateString} - ${timeString}`;
 	}
 }
 

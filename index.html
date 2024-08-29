@@ -76,7 +76,7 @@
 					<p class="logo">N</p>
 
 					<ul class="nav">
-						<li class="nav-item main-tab active">
+						<li class="nav-item main-tab">
 							<span
 								class="material-symbols-rounded lg-32"
 								id="file"
@@ -115,7 +115,7 @@
 							<p class="nav-label">To-do List</p>
 						</li>
 
-						<li class="nav-item">
+						<li class="nav-item active">
 							<span
 								class="material-symbols-rounded lg-32"
 								id="diary"
@@ -130,7 +130,6 @@
 					</ul>
 				</div>
 
-				<!-- <span class="material-symbols-rounded md-18 add-file"> add </span> -->
 				<div class="buttons">
 					<div class="toggle-buttons">
 						<div class="toggle-day">
@@ -149,7 +148,7 @@
 			</div>
 
 			<!-- SETTINGS TAB -->
-			<div class="settings-page wrap-box hidden">
+			<div class="settings-page hidden">
 				<p class="settings-title h3">settings</p>
 				<div class="settings-container">
 					<div class="settings-tab">
@@ -181,7 +180,7 @@
 			<main>
 				<div class="files">
 					<!-- NOTES SECTION -->
-					<div class="file-wrap main" id="file">
+					<div class="file-wrap main hidden" id="file">
 						<button class="add-file flex-gap-sm btn">
 							New File
 							<span class="material-symbols-rounded md-18 add-file"> add </span>
@@ -213,11 +212,13 @@
 										</span>
 									</div>
 								</div>
-								<textarea
-									name="text-area"
-									class="text-area"
-									placeholder="Write Note Here...."
-								></textarea>
+								<div class="text-area-box">
+									<textarea
+										name="text-area"
+										class="text-area"
+										placeholder="Write Note Here...."
+									></textarea>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -237,12 +238,14 @@
 										type="text"
 										autocomplete="off"
 										maxlength="50"
+										readonly="'true"
 									/>
 								</div>
 								<textarea
 									name="text-area"
 									class="text-area"
 									id="text-area-bookmark"
+									readonly="true"
 								></textarea>
 							</div>
 						</div>
@@ -326,14 +329,16 @@
 									<span class="material-symbols-rounded md-18 add"> add </span
 									>Add
 								</button>
-								<p class="error-message">Please fill all fields to continue</p>
+								<p class="error-message hidden">
+									Please fill all fields to continue
+								</p>
 							</form>
 						</div>
 
 						<div class="container grid grid-3-cols">
 							<div class="todo-sidebar">
 								<button class="btn create-todo">Create todo</button>
-								<div>
+								<div class="my-todos">
 									<p class="todo-title">My todo items</p>
 									<ul class="todo-list"></ul>
 								</div>
@@ -342,7 +347,7 @@
 							<div
 								class="todo-body"
 								contenteditable="false"
-								data-placeholder="You have no active todo entries. Click the create todo button to start"
+								data-placeholder="You do not have active todo entries. Click the create todo button to start"
 							>
 								<div class="todo-body-container hidden">
 									<h2 class="todo-heading"></h2>
@@ -414,13 +419,43 @@
 					</div>
 
 					<!-- DIARY SECTION -->
-					<div class="file-wrap diary hidden" id="diary">DIARY</div>
+					<div class="file-wrap diary" id="diary">
+						<div class="container container-grid">
+							<div class="diary-list" contenteditable="false">
+								<ul class="diaries"></ul>
+							</div>
+							<div class="diary-body">
+								<div class="diary-save-date flex space-between">
+									<span class="diary-date">Date</span>
+									<span class="material-symbols-rounded md-18 save-diary">
+										save
+									</span>
+								</div>
+
+								<div class="diary-tx-container">
+									<textarea
+										name="text-area"
+										class="diary-text-area"
+										placeholder="Type your daily memoire here....."
+									></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</main>
+
+			<footer>
+				<p class="footer-text">
+					Copyright &#169; <span class="copyright-date"></span> Alfred Onuh
+				</p>
+			</footer>
 		</div>
+
 		<script src="scripts/script.js"></script>
 		<script src="scripts/main.js"></script>
 		<script src="scripts/bookmark.js"></script>
 		<script src="scripts/todo.js"></script>
+		<script src="scripts/diary.js"></script>
 	</body>
 </html>

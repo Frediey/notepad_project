@@ -67,12 +67,16 @@ function randomNums() {
 
 	formInput.addEventListener("focusout", () => {
 		formInput.value === ""
-			? (formInput.style.border = "1px solid red")
+			? (formInput.style.border = "1px dotted red")
 			: (formInput.style.border = "1px dotted #050517");
 
 		[...inputs].every((input) => input.value !== "")
-			? (errorMessage.style.display = "none")
-			: (errorMessage.style.display = "block");
+			? errorMessage.classList.add("hidden")
+			: errorMessage.classList.remove("hidden");
+
+		// [...inputs].every((input) => input.value !== "")
+		// 	? (errorMessage.style.display = "none")
+		// 	: (errorMessage.style.display = "block");
 	});
 });
 
@@ -317,7 +321,7 @@ class TodoList {
 		[...inputs].forEach((input) => {
 			input.style.border = "1px dotted #050517";
 		});
-		errorMessage.style.display = "none";
+		// errorMessage.style.display = "none";
 
 		if (!todoModal.id) {
 			todoHeading.id = formModal.id;
@@ -342,6 +346,7 @@ class TodoList {
 			checkBox.addEventListener("click", (e) => {
 				this.checkBoxFunction(e, checkBox);
 			});
+			this.closeModalFunction();
 		}
 
 		if (todoModal.id) {
@@ -371,7 +376,6 @@ class TodoList {
 			this.explodeTodo(e);
 		});
 
-		this.percentComplete();
 		this.addExplodeFormat();
 
 		groupName.readOnly = false;
@@ -425,6 +429,7 @@ class TodoList {
 
 		this.setLocalStorage("todos", this.todoObjectArray);
 		this.setLocalStorage("groupId", this.todoListArray);
+		this.percentComplete();
 		this.saveDeleteFormat();
 		this.clearFormInputs();
 
@@ -549,9 +554,12 @@ class TodoList {
 		formModal.removeAttribute("id");
 		formModal.classList.add("hidden");
 		document.querySelector(".overlay").classList.add("hidden");
-		!errorMessage.classList.contains("hidden")
-			? errorMessage.classList.add("hidden")
-			: "";
+		this.clearFormInputs();
+		// errorMessage.style.dislay = "none";
+		errorMessage.classList.add("hidden");
+		// errorMessage.style.dislay === "block"
+		// 	? (errorMessage.style.dislay = "none")
+		// 	: "";
 
 		[...inputs].forEach((input) => {
 			input.style.border = "1px dotted #050517";
